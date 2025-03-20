@@ -32,6 +32,10 @@ jobs:
             mv tfstate/terraform.tfstate terraform/terraform.tfstate
           fi
 
+      - name: Zip Lambda function
+        run: |
+          zip -r lambda.zip index.js
+
       - name: Initialize Terraform
         run: terraform init
 
