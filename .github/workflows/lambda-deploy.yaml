@@ -45,6 +45,10 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: terraform apply -auto-approve -var "aws_access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -var "aws_secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" -state=terraform/terraform.tfstate
 
+      - name: LS
+        run: ls
+
+
       - name: Save terraform.tfstate
         run: |
           if [ -f terraform/terraform.tfstate ]; then
