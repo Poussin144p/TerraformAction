@@ -37,32 +37,32 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-resource "aws_lambda_function" "lambda_function" {
-  function_name = "g10-lambda"
-  role          = aws_iam_role.lambda_role.arn
-  handler       = "index.handler"
-  runtime       = "nodejs22.x"
-  filename      = "lambda.zip"
-  source_code_hash = filebase64sha256("lambda.zip")
-
-  environment {
-    variables = {
-      NODE_ENV = "production"
-    }
-  }
-}
-
-resource "aws_s3_bucket" "lambda_bucket" {
-  bucket = "g10-lambda-bucket"
-}
-
-resource "aws_s3_object" "uploaded_file" {
-  bucket = aws_s3_bucket.lambda_bucket.id
-  key    = "lambda.zip"
-  source = "lambda.zip"
-  etag   = filemd5("lambda.zip")
-}
-
-output "lambda_function_arn" {
-  value = aws_lambda_function.lambda_function.arn
-}
+# resource "aws_lambda_function" "lambda_function" {
+#   function_name = "g10-lambda"
+#   role          = aws_iam_role.lambda_role.arn
+#   handler       = "index.handler"
+#   runtime       = "nodejs22.x"
+#   filename      = "lambda.zip"
+#   source_code_hash = filebase64sha256("lambda.zip")
+#
+#   environment {
+#     variables = {
+#       NODE_ENV = "production"
+#     }
+#   }
+# }
+#
+# resource "aws_s3_bucket" "lambda_bucket" {
+#   bucket = "g10-lambda-bucket"
+# }
+#
+# resource "aws_s3_object" "uploaded_file" {
+#   bucket = aws_s3_bucket.lambda_bucket.id
+#   key    = "lambda.zip"
+#   source = "lambda.zip"
+#   etag   = filemd5("lambda.zip")
+# }
+#
+# output "lambda_function_arn" {
+#   value = aws_lambda_function.lambda_function.arn
+# }
