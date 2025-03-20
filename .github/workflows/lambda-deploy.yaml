@@ -39,6 +39,12 @@ jobs:
       - name: Initialize Terraform
         run: terraform init
 
+      - name: PWD
+        run: pwd
+
+      - name: ls
+        run: ls
+
       - name: Apply Terraform
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
