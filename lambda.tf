@@ -15,7 +15,7 @@ variable "aws_secret_key" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda_role"
+  name = "g10-lambda_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -38,7 +38,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 }
 
 resource "aws_lambda_function" "lambda_function" {
-  function_name = "my_nodejs_lambda"
+  function_name = "g10-lambda"
   role          = aws_iam_role.lambda_role.arn
   handler       = "index.handler"
   runtime       = "nodejs22.x"
@@ -53,11 +53,14 @@ resource "aws_lambda_function" "lambda_function" {
 }
 
 resource "aws_s3_bucket" "lambda_bucket" {
-  bucket = "my-lambda-bucket"
+  bucket = "g10-lambda-bucket"
 }
 
-resource "aws_s3_bucket_object" "lambda_zip" {
+resource "aws_s3_object" "uploaded_file" {
+  bucket = aws_s3_bucket.lambda_bucket.id
+  key    = "lambda.zip"
   source = "lambda.zip"
+  etag   = filemd5("lambda.zip")
 }
 
 output "lambda_function_arn" {
