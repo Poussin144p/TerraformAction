@@ -34,7 +34,7 @@ jobs:
 
       - name: Zip Lambda function
         run: |
-          zip -r lambda.zip index.js
+          zip -r lambda.zip . -i index.mjs
 
       - name: Initialize Terraform
         run: terraform init
