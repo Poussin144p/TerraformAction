@@ -25,7 +25,7 @@ jobs:
 
       - name: Load terraform.tfstate
         run: |
-          git fetch origin state
+          git fetch origin state || git checkout --orphan state
           if git ls-tree -r state --name-only | grep -q 'tfstate/terraform.tfstate'; then
             git checkout state -- tfstate/terraform.tfstate
             mkdir -p terraform
@@ -52,7 +52,7 @@ jobs:
             git config --global user.email 'github-actions[bot]@users.noreply.github.com'
             git add tfstate/terraform.tfstate
             git commit -m 'Update terraform.tfstate'
-            git push origin state
+            git push origin state || (git checkout -b state && git push origin state)
           else
             echo "terraform.tfstate file not found."
           fi
